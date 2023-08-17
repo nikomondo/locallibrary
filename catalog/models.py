@@ -15,6 +15,17 @@ class Genre(models.Model):
         """String for representing the Model object."""
         return self.name
 
+class Language(models.Model):
+    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
+
+    name = models.CharField(
+        max_length=200,
+        help_text="Saisir la langue du livre (e.g. English, French, Japanese etc.)",
+    )
+
+    def __str__(self):
+        """String for representing the Model object (in Admin site etc.)"""
+        return self.name    
 
 class Book(models.Model):
     """Cet objet représente un livre (mais ne traite pas les copies présentes en rayon)."""
@@ -40,6 +51,10 @@ class Book(models.Model):
     #  un livre peut avoir plusieurs genres littéraire et réciproquement.
     # Comme la classe d'objets Genre a été définit précédemment, nous pouvons manipuler l'objet.
     genre = models.ManyToManyField(Genre, help_text="Selectionner le genre de ce livre")
+
+    language = models.ForeignKey(
+        "Language", on_delete=models.SET_NULL, null=True
+    )
 
     def __str__(self):
         """Fonction requise par Django pour manipuler les objets Book dans la base de données."""
